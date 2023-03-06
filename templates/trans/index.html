@@ -1,0 +1,32 @@
+<div class="container mt-5 mb-5">
+    <h1>
+        <b>번역기</b>
+    </h1>
+</div>
+<form>
+    {% csrf_token %}
+    <div class="row mt-5">
+        <div class="col-sm-5">
+            <textarea class="form-control" name="bf" style="height: 300px;" placeholder="번역할 문장을 입력해주세요">{{ bf }}</textarea>
+        </div>
+        <div class="col-sm-2" style="margin: auto;">
+            <select class="form-select" name="fr">
+                {% for code,name in ndict.items %}
+                    <option value="{{code}}" {% if fr %}{% if fr == code %} selected {% endif %}{% else %} {% if code == 'ko' %}selected {% endif %}{% endif %}>{{ name|upper }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-dark mt-3 mb-3" style="width: 100%;">번역</button>
+            <a href="{% url 'trans:index' %}?bf={{af}}&to={{fr}}&fr={{to}}" class="btn btn-dark mb-3" style="width: 100%;">체인지</a>
+            <select class="form-select" name="to">
+                {% for code,name in ndict.items %}
+                    <option value="{{code}}" {% if fr %}{% if to == code %} selected {% endif %}{% else %} {% if code == 'en' %}selected {% endif %}{% endif %}>{{ name|upper }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-sm-5">
+            <textarea class="form-control"style="height: 300px;">{{ af }}</textarea>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

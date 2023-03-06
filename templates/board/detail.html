@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block con %}
+    <!-- board/detail.html -->
+
+    <h1><b>{{ b.subject }}</b></h1>
+
+    <div class="row mt-5">
+        <div class="col-sm-9">
+            <textarea class="form-control" style="height:200px" disabled>{{ b.content }}</textarea>
+        </div>
+        <div class="col-sm-3">
+            <img src="{{ b.writer.getpic }}" width="100%">
+            <div class="text-center mt-3">
+                <h5>written by <b>{{ b.writer }}</b></h5>
+            </div>
+            <div class="text-end mt-3">
+                <b>{{ b.pubdate|date:'Y년 m월 d일 / H:i' }}</b>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="text-end mt-4">
+        {% if user in b.likey.all %}
+            <a href="{% url 'board:unlikey' b.id %}" class="btn btn-dark">좋아요취소</a>
+        {% else %}
+            <a href="{% url 'board:likey' b.id %}" class="btn btn-dark">좋아요추가</a>
+        {% endif %}
+
+        <a href="{% url 'board:index' %}" class="btn btn-dark">글목록</a>
+
+        {% if user == b.writer %}
+            <a href="{% url 'board:update' b.id %}" class="btn btn-dark">글수정</a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#remove">
+                글삭제
+            </button>
+        {% endif %}
+
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="remove" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><b>게시글 삭제 알림창</b></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    정말 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <a href="{% url 'board:delete' b.id %}" class="btn btn-danger">삭제</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

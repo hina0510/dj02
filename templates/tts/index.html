@@ -1,0 +1,25 @@
+{%extends 'base.html' %}
+{%block con%}
+
+    <h1><b>TTS</b></h1>
+
+    <form method="post">
+        {%csrf_token%}
+        <textarea name="bf" class="form-control mt-4" style="height:200px" placeholder="변환할 문장을 입력해주세요">{{bf}}</textarea>
+
+        <select name="to" class="form-select mt-4">
+            {%for code, name in ndict.items%}
+            <option value="{{code}}"{%if to%}{%if to == code%}selected{%endif%}{%else%}{%if code == "ko" %}selected{%endif%}{%endif%}>{{name|upper}}</option>
+            {%endfor%}
+        </select>
+
+        <button class="btn btn-dark mt-4" style="width:100%">변환</button>
+        {%if fn%}
+        <a href="/media/tts/{{fn}}.mp3" class="btn btn-secondary mt-4" style="width:100%" download>다운로드</a>
+        {%endif%}
+    </form>
+
+    
+
+
+{%endblock%}
